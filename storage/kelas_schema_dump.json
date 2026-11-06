@@ -1,0 +1,153 @@
+{
+    "kelas_columns": [
+        "id_kelas",
+        "tingkat",
+        "id_jurusan"
+    ],
+    "jurusan_columns": [
+        "id_jurusan",
+        "nama_jurusan"
+    ],
+    "kelas_rows": [
+        {
+            "id_kelas": "1",
+            "tingkat": "X",
+            "id_jurusan": "RPL 1"
+        },
+        {
+            "id_kelas": "10",
+            "tingkat": "X",
+            "id_jurusan": "LPS 2"
+        },
+        {
+            "id_kelas": "11",
+            "tingkat": "X",
+            "id_jurusan": "TKJ 1"
+        },
+        {
+            "id_kelas": "12",
+            "tingkat": "X",
+            "id_jurusan": "TKJ 2"
+        },
+        {
+            "id_kelas": "13",
+            "tingkat": "X",
+            "id_jurusan": "TKJ 3"
+        },
+        {
+            "id_kelas": "14",
+            "tingkat": "X",
+            "id_jurusan": "TKJ 4"
+        },
+        {
+            "id_kelas": "15",
+            "tingkat": "X",
+            "id_jurusan": "BD 1"
+        },
+        {
+            "id_kelas": "16",
+            "tingkat": "X",
+            "id_jurusan": "BD 2"
+        },
+        {
+            "id_kelas": "17",
+            "tingkat": "X",
+            "id_jurusan": "BD 3"
+        },
+        {
+            "id_kelas": "18",
+            "tingkat": "X",
+            "id_jurusan": "BD 4"
+        }
+    ],
+    "jurusan_rows": [
+        {
+            "id_jurusan": "AKL 1",
+            "nama_jurusan": "Akuntansi dan Keuangan Lembaga 1"
+        },
+        {
+            "id_jurusan": "AKL 2",
+            "nama_jurusan": "Akuntansi dan Keuangan Lembaga 2"
+        },
+        {
+            "id_jurusan": "AKL 3",
+            "nama_jurusan": "Akuntansi dan Keuangan Lembaga 3"
+        },
+        {
+            "id_jurusan": "AKL 4",
+            "nama_jurusan": "Akuntansi dan Keuangan Lembaga 4"
+        },
+        {
+            "id_jurusan": "BD 1",
+            "nama_jurusan": "Bisnis Digital 1"
+        },
+        {
+            "id_jurusan": "BD 2",
+            "nama_jurusan": "Bisnis Digital 2"
+        },
+        {
+            "id_jurusan": "BD 3",
+            "nama_jurusan": "Bisnis Digital 3"
+        },
+        {
+            "id_jurusan": "BD 4",
+            "nama_jurusan": "Bisnis Digital 4"
+        },
+        {
+            "id_jurusan": "BR 1",
+            "nama_jurusan": "Pemasaran \/ Bisnis Ritel 1"
+        },
+        {
+            "id_jurusan": "BR 2",
+            "nama_jurusan": "Pemasaran \/ Bisnis Ritel 2"
+        },
+        {
+            "id_jurusan": "BR 3",
+            "nama_jurusan": "Pemasaran \/ Bisnis Ritel 3"
+        },
+        {
+            "id_jurusan": "BR 4",
+            "nama_jurusan": "Pemasaran \/ Bisnis Ritel 4"
+        },
+        {
+            "id_jurusan": "DKV 1",
+            "nama_jurusan": "Desain Komunikasi Visual 1"
+        },
+        {
+            "id_jurusan": "DKV 2",
+            "nama_jurusan": "Desain Komunikasi Visual 2"
+        },
+        {
+            "id_jurusan": "LPS 1",
+            "nama_jurusan": "Layanan Perbankan Syariah 1"
+        },
+        {
+            "id_jurusan": "LPS 2",
+            "nama_jurusan": "Layanan Perbankan Syariah 2"
+        },
+        {
+            "id_jurusan": "RPL 1",
+            "nama_jurusan": "Rekayasa Perangkat Lunak 1"
+        },
+        {
+            "id_jurusan": "RPL 2",
+            "nama_jurusan": "Rekayasa Perangkat Lunak 2"
+        },
+        {
+            "id_jurusan": "TKJ 1",
+            "nama_jurusan": "Teknik Komputer dan Jaringan 1"
+        },
+        {
+            "id_jurusan": "TKJ 2",
+            "nama_jurusan": "Teknik Komputer dan Jaringan 2"
+        },
+        {
+            "id_jurusan": "TKJ 3",
+            "nama_jurusan": "Teknik Komputer dan Jaringan 3"
+        },
+        {
+            "id_jurusan": "TKJ 4",
+            "nama_jurusan": "Teknik Komputer dan Jaringan 4"
+        }
+    ]
+}
