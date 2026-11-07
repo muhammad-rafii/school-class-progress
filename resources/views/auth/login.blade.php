@@ -389,10 +389,6 @@
                 </button>
             </form>
 
-            <div class="login-footer">
-                Belum punya akun? <a href="{{ route('register') }}">Daftar di sini</a>
-            </div>
-
         </div>
     </div>
 
