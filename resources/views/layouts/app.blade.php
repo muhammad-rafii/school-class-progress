@@ -124,7 +124,10 @@
             <div class="topbar-right">
                 <div class="topbar-date d-none d-md-flex">
                     <i class="fa-regular fa-calendar"></i>
-                    {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('l, d F Y') }}
+                    <div class="topbar-date-text">
+                        <span>{{ \Carbon\Carbon::now()->locale('id')->translatedFormat('l, d F Y') }}</span>
+                        <span class="topbar-clock" id="topbarClock">{{ now()->format('H:i:s') }} WIB</span>
+                    </div>
                 </div>
 
                 <div class="dropdown">
@@ -227,6 +230,20 @@
                     html.classList.toggle('sb-open');
                 }
             });
+
+            // Jam digital (WIB) yang berjalan setiap detik
+            const clockEl = document.getElementById('topbarClock');
+            if (clockEl) {
+                const fmt = new Intl.DateTimeFormat('id-ID', {
+                    hour: '2-digit', minute: '2-digit', second: '2-digit',
+                    hour12: false, timeZone: 'Asia/Jakarta'
+                });
+                const tick = () => {
+                    clockEl.textContent = fmt.format(new Date()).replace(/\./g, ':') + ' WIB';
+                };
+                tick();
+                setInterval(tick, 1000);
+            }
 
             const closeMobile = () => html.classList.remove('sb-open');
             document.getElementById('sidebarClose')?.addEventListener('click', closeMobile);

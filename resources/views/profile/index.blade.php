@@ -11,7 +11,7 @@
         default => ($role->nama_role ?? ($navRole['label'] ?? 'Pengguna'))
     };
     $parts = preg_split('/\s+/', trim($user->nama_lengkap ?? $user->username));
-    $initials = strtoupper(mb_substr($parts[0] ?? 'U', 0, 1) . mb_substr($parts[1] ?? '', 0, 1));
+    $initials = strtoupper(mb_substr($parts[0] ?? '', 0, 1) . mb_substr($parts[1] ?? '', 0, 1));
 @endphp
 
 @section('content')

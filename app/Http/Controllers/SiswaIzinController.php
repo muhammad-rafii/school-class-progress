@@ -46,12 +46,12 @@ class SiswaIzinController extends Controller
 
         $request->validate([
             // Izin hanya bisa diajukan mulai hari ini, tidak boleh untuk tanggal yang sudah lewat
-            'start_date' => 'required|date|after_or_equal:' . now()->toDateString(),
+            'start_date' => 'required|date|date_equals:' . now()->toDateString(),
             'end_date' => 'required|date|after_or_equal:start_date',
             'reason' => 'required|string',
             'document' => 'required|mimes:pdf,jpg,jpeg,png|max:2048',
         ], [
-            'start_date.after_or_equal' => 'Tanggal mulai tidak boleh sebelum hari ini. Pengajuan izin hanya bisa untuk hari ini dan seterusnya.',
+            'start_date.date_equals' => 'Tanggal mulai hanya boleh hari ini.',
         ]);
 
         $docPath = null;

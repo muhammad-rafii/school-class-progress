@@ -104,8 +104,9 @@
                             <div class="col-sm-6">
                                 <label class="form-label" for="start_date">Tanggal Mulai</label>
                                 <input type="date" name="start_date" id="start_date" class="form-control"
-                                    min="{{ now()->toDateString() }}" value="{{ old('start_date') }}" required>
-                                <div class="form-text">Tidak bisa memilih tanggal yang sudah lewat.</div>
+                                    min="{{ now()->toDateString() }}" max="{{ now()->toDateString() }}"
+                                    value="{{ now()->toDateString() }}" required>
+                                <div class="form-text">Tanggal mulai hanya bisa hari ini.</div>
                             </div>
                             <div class="col-sm-6">
                                 <label class="form-label" for="end_date">Tanggal Selesai</label>
@@ -240,6 +241,14 @@
         </div>
     </div>
 @endsection
+
+@push('styles')
+<style>
+    #start_date::-webkit-calendar-picker-indicator {
+        display: none;
+    }
+</style>
+@endpush
 
 @push('scripts')
 <script>

@@ -194,7 +194,7 @@
                     </div>
                     <div class="header-actions search-box">
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="search" class="form-control" id="searchJadwal" placeholder="Cari hari, kelas, mapel..." data-table-search="#tableJadwal">
+                        <input type="search" class="form-control" id="searchJadwal" placeholder="Cari hari, kelas, mapel...">
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -259,7 +259,84 @@
                         </tbody>
                     </table>
                 </div>
+
+                {{-- Paginasi: 25 jadwal per halaman --}}
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 px-3 py-3 border-top jadwal-pagination d-none" id="jadwalPagination">
+                    <div class="text-muted small" id="jadwalPageInfo"></div>
+                    <div class="d-flex align-items-center gap-1">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="jadwalPrev"><i class="fa-solid fa-chevron-left me-1"></i> Sebelumnya</button>
+                        <span class="small fw-semibold px-2" id="jadwalPageNum"></span>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="jadwalNext">Selanjutnya <i class="fa-solid fa-chevron-right ms-1"></i></button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const PER_PAGE = 25;
+            const table = document.getElementById('tableJadwal');
+            if (!table) return;
+
+            const rows = Array.from(table.querySelectorAll('tbody tr[data-row]'));
+            const search = document.getElementById('searchJadwal');
+            const pagination = document.getElementById('jadwalPagination');
+            const pageInfo = document.getElementById('jadwalPageInfo');
+            const pageNum = document.getElementById('jadwalPageNum');
+            const btnPrev = document.getElementById('jadwalPrev');
+            const btnNext = document.getElementById('jadwalNext');
+            const noResult = table.querySelector('tbody tr.js-no-result');
+
+            let currentPage = 1;
+            let filteredRows = rows;
+
+            function applyFilter(resetPage = true) {
+                const q = search ? search.value.toLowerCase().trim() : '';
+                if (resetPage) currentPage = 1;
+                filteredRows = rows.filter(r => !q || r.textContent.toLowerCase().includes(q));
+                renderPage();
+            }
+
+            function renderPage() {
+                const total = filteredRows.length;
+                const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
+                if (currentPage > totalPages) currentPage = totalPages;
+                const start = (currentPage - 1) * PER_PAGE;
+                const end = start + PER_PAGE;
+
+                rows.forEach(r => r.classList.add('d-none'));
+                filteredRows.forEach((r, i) => {
+                    if (i >= start && i < end) {
+                        r.classList.remove('d-none');
+                        const idx = r.querySelector('.row-index');
+                        if (idx) idx.textContent = i + 1; // nomor urut mengikuti hasil pencarian
+                    }
+                });
+
+                if (noResult) noResult.classList.toggle('d-none', total > 0 || rows.length === 0);
+                if (pagination) pagination.classList.toggle('d-none', total === 0);
+                if (pageInfo) {
+                    pageInfo.textContent = total === 0
+                        ? ''
+                        : 'Menampilkan ' + (start + 1) + '–' + Math.min(end, total) + ' dari ' + total + ' jadwal';
+                }
+                if (pageNum) pageNum.textContent = 'Halaman ' + currentPage + ' / ' + totalPages;
+                if (btnPrev) btnPrev.disabled = currentPage <= 1;
+                if (btnNext) btnNext.disabled = currentPage >= totalPages;
+            }
+
+            function goTop() {
+                table.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            if (search) search.addEventListener('input', () => applyFilter(true));
+            if (btnPrev) btnPrev.addEventListener('click', () => { if (currentPage > 1) { currentPage--; renderPage(); goTop(); } });
+            if (btnNext) btnNext.addEventListener('click', () => { currentPage++; renderPage(); goTop(); });
+
+            applyFilter();
+        });
+    </script>
+@endpush

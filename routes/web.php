@@ -44,7 +44,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // ==========================================
 // ROUTE WAKA KURIKULUM
 // ==========================================
-Route::get('/waka/dashboard', [WakaController::class, 'dashboard'])->name('waka.dashboard');
+Route::get('/waka/dashboard', [WakaController::class, 'dashboard'])->middleware('role:4')->name('waka.dashboard');
 Route::post('/waka/config/update', [WakaController::class, 'updateConfig'])->name('waka.config.update');
 Route::get('/waka/jurnal/rekap', [JurnalController::class, 'rekapWaka'])->name('waka.jurnal.rekap');
 
@@ -62,7 +62,7 @@ Route::delete('/manajemen-akun/{id}/destroy', [JadwalPelajaranController::class,
 // ==========================================
 // ROUTE GURU
 // ==========================================
-Route::get('/guru/dashboard', [GuruController::class, 'dashboard'])->name('guru.dashboard');
+Route::get('/guru/dashboard', [GuruController::class, 'dashboard'])->middleware('role:2,3')->name('guru.dashboard');
 
 
 // ==========================================
@@ -94,7 +94,9 @@ Route::post('/siswa/izin', [SiswaIzinController::class, 'store'])->name('siswa.i
 // ==========================================
 Route::get('/kesiswaan/izin', [KesiswaanController::class, 'index'])->name('kesiswaan.izin.index');
 Route::post('/kesiswaan/izin/{id}/update', [KesiswaanController::class, 'updateStatus'])->name('kesiswaan.izin.update');
-Route::get('/kesiswaan/rekap-presensi', [KesiswaanController::class, 'rekapPresensi'])->name('kesiswaan.presensi.rekap');
+Route::get('/kesiswaan/rekap-presensi', [KesiswaanController::class, 'rekapPresensi'])
+    ->middleware('role:3,4,7')
+    ->name('kesiswaan.presensi.rekap');
 
 
 // ==========================================

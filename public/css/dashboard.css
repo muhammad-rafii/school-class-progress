@@ -1200,3 +1200,17 @@ a.sidebar-profile:hover .sidebar-profile-arrow {
     }
 }
 
+
+/* Jam digital di bawah tanggal */
+.topbar-date { padding: 7px 14px; }
+.topbar-date-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+}
+.topbar-clock {
+    font-size: .75rem;
+    font-weight: 700;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+}

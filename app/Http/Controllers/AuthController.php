@@ -312,7 +312,8 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $request->session()->flush();
+        // Hanya keluarkan akun di tab ini (jangan flush: token CSRF & tab lain ikut rusak)
+        $request->session()->forget(\App\Http\Middleware\TabSession::KEYS);
         return redirect()->route('login')->with('success', 'Berhasil logout!');
     }
 }

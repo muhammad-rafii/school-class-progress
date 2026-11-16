@@ -110,6 +110,13 @@ class KesiswaanController extends Controller
             }
         }
 
+        // Izin yang sudah disetujui bersifat final: tidak boleh ditolak atau diubah lagi
+        if ($leave->status_approval === 'Approved') {
+            return redirect()->back()->withErrors([
+                'error' => 'Izin yang sudah disetujui tidak dapat ditolak atau diubah lagi.'
+            ]);
+        }
+
         $leave->status_approval = $request->status_approval;
         $leave->verified_by = $idUser;
 

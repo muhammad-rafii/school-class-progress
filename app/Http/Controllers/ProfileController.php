@@ -47,7 +47,7 @@ class ProfileController extends Controller
         $user = DB::table('users')->where('id_user', $idUser)->first();
 
         if (!$user) {
-            session()->flush();
+            session()->forget(\App\Http\Middleware\TabSession::KEYS);
             return redirect()->route('login')->withErrors(['error' => 'Data pengguna tidak ditemukan.']);
         }
 

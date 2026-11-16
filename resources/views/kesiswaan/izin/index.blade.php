@@ -116,7 +116,6 @@
                 <input type="search" class="form-control" id="searchIzin" placeholder="Cari nama, NISN, alasan..." data-table-search="#tableIzin">
             </div>
         </div>
-
         <div class="table-responsive">
             <table class="table table-modern" id="tableIzin">
                 <thead>
@@ -183,9 +182,11 @@
                                             <i class="fa-solid fa-check"></i> Setujui
                                         </button>
                                     </form>
-                                    {{-- Tombol Tolak membuka modal untuk mengisi catatan penolakan --}}
+                                    {{-- Tombol Tolak membuka modal untuk mengisi catatan penolakan.
+                                         Izin yang sudah disetujui bersifat final, jadi tombol dinonaktifkan. --}}
                                     <button type="button" class="btn btn-sm btn-soft-danger btn-tolak" id="reject-{{ $item->id }}"
-                                            @disabled($st['key'] === 'rejected')
+                                            @disabled($st['key'] === 'rejected' || $st['key'] === 'approved')
+                                            @if($st['key'] === 'approved') title="Izin yang sudah disetujui tidak dapat ditolak" @endif
                                             data-action="{{ route('kesiswaan.izin.update', $item->id) }}"
                                             data-nama="{{ $sName }}"
                                             data-catatan="{{ $item->catatan_verifikasi }}">

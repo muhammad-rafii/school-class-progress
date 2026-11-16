@@ -39,32 +39,40 @@
     .stat-badge-chip.total { background: #f1f5f9; color: #334155; }
     .stat-badge-chip.days  { background: #ede9fe; color: #6d28d9; }
 
-    /* Print styling */
+    /* Print styling: polos, hitam putih */
+    .print-header, .print-only { display: none; }
+    @page { size: A4 portrait; margin: 14mm; }
     @media print {
-        .app-sidebar, .app-topbar, .page-hero, .card-filter, .card-toolbar, 
-        .table-actions, .btn, .modal, .sidebar-backdrop {
+        /* Sembunyikan semua tampilan layar */
+        .app-sidebar, .app-topbar, .app-footer, .sidebar-backdrop,
+        .page-hero, .card-filter, .no-print, .modal, .modal-backdrop, .alert {
             display: none !important;
         }
-        .app-main {
-            margin: 0 !important;
-            padding: 0 !important;
-        }
-        .card-modern {
-            box-shadow: none !important;
-            border: none !important;
-        }
-        .print-header {
-            display: block !important;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        body {
-            background: #fff !important;
+        html, body { background: #fff !important; }
+        .app-main { margin: 0 !important; padding: 0 !important; width: 100% !important; }
+        .app-content { padding: 0 !important; overflow: visible !important; }
+
+        /* Tampilkan versi cetak */
+        .print-header { display: block !important; text-align: center; margin-bottom: 10px; }
+        .print-only { display: block !important; }
+        .print-header, .print-only, .print-header *, .print-only * {
             color: #000 !important;
+            background: #fff !important;
+            box-shadow: none !important;
+            text-shadow: none !important;
         }
-    }
-    .print-header {
-        display: none;
+        .print-header h3 { font-size: 14pt; margin: 0 0 2px; font-weight: 700; }
+        .print-header h5 { font-size: 11pt; margin: 0 0 4px; font-weight: 400; }
+        .print-header p { font-size: 9pt; margin: 0; }
+        .print-header hr { margin: 8px 0; border: 0; border-top: 1px solid #000; opacity: 1; }
+
+        .print-summary { font-size: 9pt; margin-bottom: 8px; }
+        .print-table { width: 100%; border-collapse: collapse; font-size: 9pt; }
+        .print-table th, .print-table td { border: 1px solid #000; padding: 4px 6px; vertical-align: middle; }
+        .print-table th { font-weight: 700; text-align: center; background: #fff !important; }
+        .print-table td.c { text-align: center; }
+        .print-table thead { display: table-header-group; }
+        .print-table tr { page-break-inside: avoid; }
     }
 </style>
 @endpush
@@ -79,6 +87,7 @@
             Periode: <strong>{{ $filterStart ? $fmtDate($filterStart) : 'Awal' }} s/d {{ $filterEnd ? $fmtDate($filterEnd) : 'Sekarang' }}</strong> |
             Status: <strong>Disetujui oleh Guru BK atau Wali Kelas</strong>
         </p>
+        <p class="mb-0 small">Dicetak: {{ now()->locale('id')->translatedFormat('d F Y, H:i') }} WIB</p>
         <hr class="my-3">
     </div>
 
@@ -109,7 +118,7 @@
     @endif
 
     {{-- ===== STAT CARDS ===== --}}
-    <div class="row g-3 mb-4 animate-in">
+    <div class="row g-3 mb-4 animate-in no-print">
         <div class="col-sm-6 col-xl-3">
             <div class="stat-card tone-blue">
                 <div class="icon-box solid lg"><i class="fa-solid fa-user-check"></i></div>
@@ -206,7 +215,7 @@
     </div>
 
     {{-- ================= TABEL UTAMA: REKAP PRESENSI SISWA TERVERIFIKASI ================= --}}
-    <div class="card-modern">
+    <div class="card-modern no-print">
         <div class="card-modern-header">
             <div class="icon-box solid tone-accent"><i class="fa-solid fa-clipboard-user"></i></div>
             <div>
@@ -234,7 +243,7 @@
                         <th class="text-center" title="Total Pengajuan Disetujui">Total Izin Disetujui</th>
                         <th class="text-center" title="Total Hari Absen">Total Hari Izin</th>
                         <th>Status Kehadiran</th>
-                        <th class="text-center">Aksi</th>
+                        <th class="text-center no-print">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -291,7 +300,7 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="text-center">
+                            <td class="text-center no-print">
                                 <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalRiwayat-{{ $s->id_siswa }}">
                                     <i class="fa-solid fa-clipboard-list me-1"></i> Rincian Izin
                                 </button>
@@ -320,6 +329,50 @@
                 </tbody>
             </table>
         </div>
+    </div>
+
+    {{-- ================= TABEL KHUSUS CETAK (polos, hitam putih) ================= --}}
+    <div class="print-only">
+        <div class="print-summary">
+            Total siswa izin/sakit: <strong>{{ $totalSiswaIzin }}</strong> |
+            Total izin disetujui: <strong>{{ $totalApprovedLeaves }}</strong> |
+            Sakit: <strong>{{ $totalSakit }}</strong> |
+            Izin: <strong>{{ $totalIzin }}</strong> |
+            Total hari tidak masuk: <strong>{{ $totalHariAbsen }}</strong>
+        </div>
+        <table class="print-table">
+            <thead>
+                <tr>
+                    <th style="width: 30px;">No</th>
+                    <th>Nama Siswa</th>
+                    <th>NISN</th>
+                    <th>Kelas</th>
+                    <th>Sakit</th>
+                    <th>Izin</th>
+                    <th>Total Izin</th>
+                    <th>Total Hari</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($siswaList as $s)
+                    @php
+                        $kelasCetak = $s->kelas ? trim(($s->kelas->tingkat ?? '') . ' ' . ($s->kelas->id_jurusan ?? $s->kelas->nama_kelas ?? $s->kelas->id_kelas)) : ($s->id_kelas ?? '-');
+                    @endphp
+                    <tr>
+                        <td class="c">{{ $loop->iteration }}</td>
+                        <td>{{ $s->nama_siswa }}</td>
+                        <td class="c">{{ $s->nisn ?? '-' }}</td>
+                        <td class="c">{{ $kelasCetak }}</td>
+                        <td class="c">{{ $s->total_sakit }}</td>
+                        <td class="c">{{ $s->total_izin }}</td>
+                        <td class="c">{{ $s->total_pengajuan }}</td>
+                        <td class="c">{{ $s->total_hari_absen }}</td>
+                    </tr>
+                @empty
+                    <tr><td colspan="8" class="c">Belum ada data.</td></tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
 
     {{-- ================= MODAL RINCIAN IZIN PER SISWA ================= --}}

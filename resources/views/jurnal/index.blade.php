@@ -354,9 +354,9 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <div class="btn-group btn-group-sm w-100" role="group">
-                                                        <input type="radio" class="btn-check presensi-radio" 
-                                                               name="presensi[{{ $siswa->id_siswa }}][status]" 
+                                                <div class="btn-group btn-group-sm w-100" role="group" @if($leave) style="pointer-events: none;" @endif>
+                                                       <input type="radio" class="btn-check presensi-radio" 
+                                                               name="presensi[{{ $siswa->id_siswa }}][status]"  
                                                                id="st_{{ $siswa->id_siswa }}_H" 
                                                                value="Hadir" 
                                                                {{ $defaultStatus === 'Hadir' ? 'checked' : '' }} 
@@ -394,7 +394,7 @@
                                                            class="form-control form-control-sm py-1 px-1" 
                                                            placeholder="Catatan..." 
                                                            value="{{ $defaultKet }}"
-                                                           style="font-size: 0.75rem;" disabled>
+                                                           style="font-size: 0.75rem;" {{ $leave ? 'readonly' : '' }} disabled>
                                                 </td>
                                             </tr>
                                         @empty
@@ -615,6 +615,7 @@
                                             @foreach($item->presensi->details as $d)
                                                 @php
                                                     $curStatus = $d->status_kehadiran;
+                                                    $lockedModal = $todayLeaves->has($d->id_siswa);
                                                 @endphp
                                                 <tr style="font-size: 0.85rem;">
                                                     <td class="py-2">
@@ -622,7 +623,7 @@
                                                         <div class="text-muted" style="font-size: 0.72rem;">NISN: {{ $d->siswa->nisn ?? '-' }}</div>
                                                     </td>
                                                     <td class="text-center py-2">
-                                                        <div class="btn-group btn-group-sm" role="group">
+                                                    <div class="btn-group btn-group-sm" role="group" @if($lockedModal) style="pointer-events: none;" @endif>
                                                             <input type="radio" class="btn-check" 
                                                                    name="presensi[{{ $d->id_siswa }}][status]" 
                                                                    id="edit_st_{{ $item->presensi->id_presensi }}_{{ $d->id_siswa }}_H" 
@@ -658,7 +659,7 @@
                                                                class="form-control form-control-sm py-1 px-2" 
                                                                placeholder="Keterangan..." 
                                                                value="{{ $d->keterangan ?? '' }}"
-                                                               style="font-size: 0.75rem;">
+                                                               style="font-size: 0.75rem;">{{ $lockedModal ? 'readonly' : '' }}
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -805,6 +806,7 @@
                     const selectedKelas = selectedOption ? selectedOption.getAttribute('data-kelas') : '';
 
                     rowsSiswa.forEach(row => {
+                        if (row.querySelector('input[type="text"][readonly]')) return;
                         const rowKelas = row.getAttribute('data-kelas');
                         if (selectedKelas && rowKelas === selectedKelas) {
                             const radioH = row.querySelector('.presensi-radio[value="Hadir"]');
